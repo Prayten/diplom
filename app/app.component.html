@@ -1,0 +1,40 @@
+<head>
+    <title></title>
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="header">
+            <!--<img src="/images/flame_horse.jpg" alt="flame_horse" width="auto" height="200">-->
+        </div>
+        <div id="navigation">Навигация</div>
+        <div id="menu">Меню
+            <button class="btn btn-primary pull-right" (click)="addEvent()">
+                Add new 
+            </button>
+        </div>
+        <div id="content">
+            <div class="alert alert-info">
+                Click on a day on the view.
+                <strong *ngIf="clickedDate">You clicked on this day: {{ clickedDate | date:'medium' }}</strong>
+            </div>
+
+            <div [ngSwitch]="view">
+                <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" (dayClicked)="clickedDate = $event.day.date">
+                </mwl-calendar-month-view>
+                <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" (dayClicked)="clickedDate = $event.date">
+                    <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events">
+                </mwl-calendar-day-view>
+                </mwl-calendar-week-view>
+                <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events">
+                </mwl-calendar-day-view>
+            </div>
+        </div>
+
+        <div id="footer">Подвал</div>
+
+    </div>
+
+
+</body>

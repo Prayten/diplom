@@ -1,0 +1,54 @@
+.div{
+    align-self: auto;
+}
+
+#body{
+    background:  #f3f2f3;
+    color: #000000;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12px;
+}
+
+#container{
+    background: #FFFFFF;
+    margin: auto;
+    width: 99%;
+    height: 99%;
+}
+
+#header{
+    background: darkred;
+    height: 200px;
+    width: auto;
+}
+
+#navigation{
+    
+    background: #a2a2a2;
+    width: auto;
+    height: 20px;
+}
+
+#menu{
+    float: left;
+    background: #333333;
+    float: left;
+    width: 30%;
+    height: 700px;
+}
+
+#content{
+    float: left;
+    background: #d2d0d2;
+    float: right;
+    width: 70%;
+    height: 700px;
+}
+
+#footer{
+    float:right;
+    background: #838283;
+
+    height: 50px;
+    width: 100%;
+}
