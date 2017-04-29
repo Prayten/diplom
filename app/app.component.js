@@ -12,7 +12,7 @@ const date_fns_1 = require("date-fns");
 const Subject_1 = require("rxjs/Subject");
 let AppComponent = class AppComponent {
     constructor() {
-        this.view = 'month';
+        this.view = 'week';
         this.viewDate = new Date();
         this.refresh = new Subject_1.Subject();
         this.events = [

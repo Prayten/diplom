@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
     
     
     
-    view: string = 'month';
+    view: string = 'week';
 
     viewDate: Date = new Date();
 
