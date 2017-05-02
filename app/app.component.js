@@ -12,7 +12,7 @@ const date_fns_1 = require("date-fns");
 const Subject_1 = require("rxjs/Subject");
 let AppComponent = class AppComponent {
     constructor() {
-        this.view = 'week';
+        this.view = 'month';
         this.viewDate = new Date();
         this.refresh = new Subject_1.Subject();
         this.events = [
@@ -47,11 +47,17 @@ let AppComponent = class AppComponent {
     }
     ngOnInit() {
     }
+    eventTimesChanged({ event, newStart, newEnd }) {
+        event.start = newStart;
+        event.end = newEnd;
+        this.refresh.next();
+    }
 };
 AppComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'my-app',
+        changeDetection: core_1.ChangeDetectionStrategy.OnPush,
         templateUrl: 'app.component.html'
     })
 ], AppComponent);

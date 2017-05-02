@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { colors } from './colors';
-import { CalendarEvent } from 'angular-calendar';
+import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { startOfDay, endOfDay } from 'date-fns';
 import { Subject } from 'rxjs/Subject';
 
@@ -9,6 +9,7 @@ import { Subject } from 'rxjs/Subject';
 @Component({
     moduleId: module.id,
     selector: 'my-app',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: 'app.component.html'
 })
 
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit{
     
     
     
-    view: string = 'week';
+    view: string = 'month';
 
     viewDate: Date = new Date();
 
@@ -59,5 +60,11 @@ export class AppComponent implements OnInit{
     ngOnInit(){
     
     }
+
+    eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
+    event.start = newStart;
+    event.end = newEnd;
+    this.refresh.next();
+  }
     
 }
