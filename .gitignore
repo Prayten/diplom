@@ -1,3 +1,11 @@
-.vscode/
-node_modules/
-npm-debug.log.*
+frontend/.idea/
+frontend/app/*.js
+frontend/app/*.js.map
+frontend/node_modules/
+backend/.idea/
+backend/rest_api/migrations/
+backend/venv/
+backend/db.sqlite3
+text/
+trash/
+*.pyc

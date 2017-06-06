@@ -1,6 +1,6 @@
 {
   "name": "consolets",
-  "description": "Lalala",
+  "description": "Редактор расписания на фреймворке Angular",
   "repository": "https://github.com/prayten/diplom",
   "license": "MIT",
   "version": "1.0.0",
@@ -28,7 +28,7 @@
     "@angular/router": "^4.1.0",
     "@angular/upgrade": "^4.1.0",
     "angular-calendar": "^0.14.0",
-    "angular-in-memory-web-api": "^0.3.1",
+    "angular-in-memory-web-api": "^0.3.2",
     "core-js": "^2.4.1",
     "dragula": "^3.7.2",
     "ng2-dnd": "^4.0.2",

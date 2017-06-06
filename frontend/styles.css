@@ -31,8 +31,8 @@
 
 #menu{
     float: left;
-    background: #333333;
-    float: left;
+    background: #FFFFFF;
+
     width: 30%;
     height: 700px;
 }
@@ -40,7 +40,7 @@
 #content{
     float: left;
     background: #d2d0d2;
-    float: right;
+
     width: 70%;
     height: 700px;
 }
