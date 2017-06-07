@@ -1,54 +1,48 @@
-.div{
-    align-self: auto;
+
+body {
+    font-family: sans-serif;
 }
 
-#body{
-    background:  #f3f2f3;
-    color: #000000;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 12px;
+.col-day {
+    display: inline-block;
+    margin: 3px;
+    width: 15%;
 }
 
-#container{
-    background: #FFFFFF;
-    margin: auto;
-    width: 99%;
-    height: 99%;
-}
+/*#container{*/
+    /*background: #FFFFFF;*/
+    /*margin: auto;*/
+    /*width: 99%;*/
+    /*height: 99%;*/
+/*}*/
 
-#header{
-    background: darkred;
-    height: 200px;
-    width: auto;
-}
+/*#header{*/
+    /*background: whitesmoke;*/
+    /*height: 50px;*/
+    /*width: auto;*/
+/*}*/
 
-#navigation{
-    
-    background: #a2a2a2;
-    width: auto;
-    height: 20px;
-}
+/*#navigation{*/
+    /*background: #a2a2a2;*/
+    /*height: 20px;*/
+    /*width: auto;*/
+/*}*/
 
-#menu{
-    float: left;
-    background: #FFFFFF;
+/*#menu{*/
+    /*float: left;*/
+    /*background: #FFFFFF;*/
+    /*width: 30%;*/
+    /*height: 700px;*/
+/*}*/
 
-    width: 30%;
-    height: 700px;
-}
+/*#content{*/
+    /*background: #d2d0d2;*/
+    /*width: 70%;*/
+    /*height: 700px;*/
+/*}*/
 
-#content{
-    float: left;
-    background: #d2d0d2;
-
-    width: 70%;
-    height: 700px;
-}
-
-#footer{
-    float:right;
-    background: #838283;
-
-    height: 50px;
-    width: 100%;
-}
+/*#footer{*/
+    /*background: whitesmoke;*/
+    /*height: 50px;*/
+    /*width: auto;*/
+/*}*/

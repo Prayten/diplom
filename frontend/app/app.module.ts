@@ -1,19 +1,24 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarModule } from 'angular-calendar';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CalendarModule} from 'angular-calendar';
+import {HttpModule} from "@angular/http";
 
-import { AppComponent } from './app.component';
-
+import {CalendarService} from './calendar.service';
+import {AppComponent} from './app.component';
 
 @NgModule({
-  imports: [ BrowserModule, FormsModule, BrowserAnimationsModule, CalendarModule.forRoot()  ],
-  declarations: [ AppComponent ],
-  providers: [  ],
-  bootstrap: [ AppComponent ]
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        BrowserAnimationsModule,
+        CalendarModule.forRoot()
+    ],
+    declarations: [AppComponent],
+    providers: [CalendarService],
+    bootstrap: [AppComponent]
 })
-
 export class AppModule {
-
 }

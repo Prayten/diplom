@@ -6,6 +6,7 @@ LEXERS = [item for item in get_all_lexers() if item[1]]
 LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
 STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 
+
 class Event(models.Model):
     RED = 'red'
     BLUE = 'blue'
@@ -18,6 +19,12 @@ class Event(models.Model):
     title = models.CharField(max_length=30, verbose_name='Наименование')
     color = models.CharField('Цвет', max_length=10, choices=COLORS) 
     start = models.DateTimeField('Начало события')
+
+    class Meta:
+        ordering = ['start', 'title']
+
+    def __str__(self):
+        return '{:%Y-%m-%d %H:%M} {}'.format(self.start, self.title)
 
 
 class Snippet(models.Model):

@@ -1,58 +1,85 @@
-<head>
-    <title></title>
-</head>
-
-<body>
-
-    <div id="container">
-        <div id="header">
-            <!--<img src="/images/flame_horse.jpg" alt="flame_horse" width="auto" height="200">-->
-        </div>
-        <div id="navigation">Навигация</div>
-        <div id="menu">Меню
-            <button class="btn btn-primary pull-right" (click)="addEvent()">
-                Add new 
+<div class="container">
+    <div class="row">
+        <div class="col-xs-3">
+            <button class="btn btn-primary pull-right"
+                    (click)="previous()">
+                Prev
+            </button>
+            <button class="btn btn-primary pull-right" (click)="refresh()">
+                Refresh
+            </button>
+            <button class="btn btn-primary pull-right"
+                    (click)="next()">
+                Next
             </button>
         </div>
-        <div id="content">
-            <div class="alert alert-info">
-                Click on a day on the view.
-                <strong *ngIf="clickedDate">You clicked on this day: {{ clickedDate | date:'medium' }}</strong>
-            </div>
-
-            <div [ngSwitch]="view">
-                <mwl-calendar-month-view 
-                    *ngSwitchCase="'month'" 
-                    [viewDate]="viewDate" 
-                    [events]="events" 
-                    [refresh]="refresh"
-                    (dayClicked)="clickedDate = $event.day.date"
-                    (eventTimesChanged)="eventTimesChanged($event)">
-                </mwl-calendar-month-view>
-
-                <mwl-calendar-week-view 
-                    *ngSwitchCase="'week'" 
-                    [viewDate]="viewDate" 
-                    [events]="events" 
-                    [refresh]="refresh"
-                    (dayClicked)="clickedDate = $event.date"
-                    (eventTimesChanged)="eventTimesChanged($event)">
-                </mwl-calendar-week-view>
-                
-                <mwl-calendar-day-view 
-                    *ngSwitchCase="'day'" 
-                    [viewDate]="viewDate" 
-                    [events]="events"
-                    [refresh]="refresh"
-                    (eventTimesChanged)="eventTimesChanged($event)">
-                </mwl-calendar-day-view>
-        </div>
-                
-        </div>
-
-        <div id="footer">Подвал</div>
-
     </div>
-
-
-</body>
+    <div class="row">
+        <div class="col-day">
+            <p>{{ viewDate1 | calendarDate:(view + 'ViewTitle'):locale }}</p>
+            <mwl-calendar-day-view
+                    [viewDate]="viewDate1"
+                    [events]="events"
+                    [dayStartHour]="8"
+                    [dayEndHour]="19"
+                    [refresh]="refresh1"
+                    (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+        </div>
+        <div class="col-day">
+            <p>{{ viewDate2 | calendarDate:(view + 'ViewTitle'):locale }}</p>
+            <mwl-calendar-day-view
+                    [viewDate]="viewDate2"
+                    [events]="events"
+                    [dayStartHour]="8"
+                    [dayEndHour]="19"
+                    [refresh]="refresh1"
+                    (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+        </div>
+        <div class="col-day">
+            <p>{{ viewDate3 | calendarDate:(view + 'ViewTitle'):locale }}</p>
+            <mwl-calendar-day-view
+                    [viewDate]="viewDate3"
+                    [events]="events"
+                    [dayStartHour]="8"
+                    [dayEndHour]="19"
+                    [refresh]="refresh1"
+                    (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+        </div>
+        <div class="col-day">
+            <p>{{ viewDate4 | calendarDate:(view + 'ViewTitle'):locale }}</p>
+            <mwl-calendar-day-view
+                    [viewDate]="viewDate4"
+                    [events]="events"
+                    [dayStartHour]="8"
+                    [dayEndHour]="19"
+                    [refresh]="refresh1"
+                    (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+        </div>
+        <div class="col-day">
+            <p>{{ viewDate5 | calendarDate:(view + 'ViewTitle'):locale }}</p>
+            <mwl-calendar-day-view
+                    [viewDate]="viewDate5"
+                    [events]="events"
+                    [dayStartHour]="8"
+                    [dayEndHour]="19"
+                    [refresh]="refresh1"
+                    (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+        </div>
+        <div class="col-day">
+            <p>{{ viewDate6 | calendarDate:(view + 'ViewTitle'):locale }}</p>
+            <mwl-calendar-day-view
+                    [viewDate]="viewDate6.getDay(1)"
+                    [events]="events"
+                    [dayStartHour]="8"
+                    [dayEndHour]="19"
+                    [refresh]="refresh1"
+                    (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+        </div>
+    </div>
+</div>
