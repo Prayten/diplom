@@ -1,78 +1,110 @@
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from . import serializers
+from django.contrib.auth.models import Group
+import datetime
+
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+
 from . import models
-from rest_api.models import Snippet
-from rest_api.serializers import SnippetSerializer
-from django.http import Http404
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = serializers.UserSerializer
+def index(request):
+    today = datetime.datetime.now()
+    year = request.session.get('year', today.year)
+    month = request.session.get('month', today.month)
+    day = request.session.get('day', today.day)
+    return redirect('week', year, month, day)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = serializers.GroupSerializer
+def week(request, year, month, day, group_id=None):
+    year, month, day = int(year), int(month), int(day)
+    request.session['year'] = year
+    request.session['month'] = month
+    request.session['day'] = day
+    start = datetime.datetime(year, month, day)
+    start -= datetime.timedelta(days=start.weekday())
+    end = start + datetime.timedelta(days=7)
+    if group_id is None:
+        events = models.Event.objects.filter(begin__gte=start, end__lt=end)
+    else:
+        events = models.Event.objects.filter(begin__gte=start, end__lt=end, participants=group_id)
+    return render(request, 'rest_api/week.html', {
+        'start': start,
+        'prev_week': start - datetime.timedelta(days=7),
+        'next_week': start + datetime.timedelta(days=7),
+        'events': events,
+        'group': None if group_id is None else Group.objects.get(pk=group_id),
+        'groups': Group.objects.all(),
+    })
 
 
-class EventViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = models.Event.objects.all()
-    serializer_class = serializers.EventSerializer
+###################################################################################################
 
-class SnippetList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-    def get(self, request, format=None):
-        snippets = Snippet.objects.all()
-        serializer = SnippetSerializer(snippets, many=True)
-        return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = SnippetSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class EventList(ListView):
+    model = models.Event
 
-class SnippetDetail(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
-    def get_object(self, pk):
-        try:
-            return Snippet.objects.get(pk=pk)
-        except Snippet.DoesNotExist:
-            raise Http404
 
-    def get(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = SnippetSerializer(snippet)
-        return Response(serializer.data)
+class EventNew(CreateView):
+    model = models.Event
+    fields = ['name', 'begin', 'end', 'room', 'subject', 'leader', 'participants']
+    success_url = reverse_lazy('index')
 
-    def put(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = SnippetSerializer(snippet, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        snippet.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class EventEdit(UpdateView):
+    model = models.Event
+    fields = ['name', 'begin', 'end', 'room', 'subject', 'leader', 'participants']
+    success_url = reverse_lazy('index')
+
+
+class EventDelete(DeleteView):
+    model = models.Event
+    success_url = reverse_lazy('index')
+
+
+###################################################################################################
+
+
+class RoomList(ListView):
+    model = models.Room
+
+
+class RoomNew(CreateView):
+    model = models.Room
+    fields = ['name', 'type']
+    success_url = reverse_lazy('room:list')
+
+
+class RoomEdit(UpdateView):
+    model = models.Room
+    fields = ['name', 'type']
+    success_url = reverse_lazy('room:list')
+
+
+class RoomDelete(DeleteView):
+    model = models.Room
+    success_url = reverse_lazy('room:list')
+
+
+###################################################################################################
+
+
+class SubjectList(ListView):
+    model = models.Subject
+
+
+class SubjectNew(CreateView):
+    model = models.Subject
+    fields = ['name', 'description']
+    success_url = reverse_lazy('subject:list')
+
+
+class SubjectEdit(UpdateView):
+    model = models.Subject
+    fields = ['name', 'description']
+    success_url = reverse_lazy('subject:list')
+
+
+class SubjectDelete(DeleteView):
+    model = models.Subject
+    success_url = reverse_lazy('subject:list')

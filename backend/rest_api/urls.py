@@ -1,31 +1,34 @@
-"""webserver URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.11/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url, include
-from rest_framework import routers
 from . import views
-from rest_framework.urlpatterns import format_suffix_patterns
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
-router.register(r'event', views.EventViewSet)
+room_patterns = ([
+    url(r'^$', views.RoomList.as_view(), name='list'),
+    url(r'^new/$', views.RoomNew.as_view(), name='new'),
+    url(r'^(?P<pk>\d+)/$', views.RoomEdit.as_view(), name='edit'),
+    url(r'^delete/(?P<pk>\d+)/$', views.RoomDelete.as_view(), name='delete'),
+], 'room')
+
+subject_patterns = ([
+    url(r'^$', views.SubjectList.as_view(), name='list'),
+    url(r'^new/$', views.SubjectNew.as_view(), name='new'),
+    url(r'^(?P<pk>\d+)/$', views.SubjectEdit.as_view(), name='edit'),
+    url(r'^delete/(?P<pk>\d+)/$', views.SubjectDelete.as_view(), name='delete'),
+], 'subject')
+
+event_patterns = ([
+    url(r'^$', views.EventList.as_view(), name='list'),
+    url(r'^new/$', views.EventNew.as_view(), name='new'),
+    url(r'^(?P<pk>\d+)/$', views.EventEdit.as_view(), name='edit'),
+    url(r'^delete/(?P<pk>\d+)/$', views.EventDelete.as_view(), name='delete'),
+], 'event')
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^snippets/$', views.SnippetList.as_view()),
-    url(r'^snippets/(?P<pk>[0-9]+)/$', views.SnippetDetail.as_view()),
+    url(r'^room/', include(room_patterns, namespace='room')),
+    url(r'^subject/', include(subject_patterns, namespace='subject')),
+    url(r'^event/', include(event_patterns, namespace='event')),
+    url(r'^$', views.index, name='index'),
+    url(r'^w/(?P<year>\d{4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})/$', views.week, name='week'),
+    url(r'^w/(?P<year>\d{4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})/(?P<group_id>\d+)/$', views.week, name='week_g'),
+    url(r'^w/(?P<year>\d{4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})/(?P<group_id>\d+)/$', views.week, name='week_gr'),
+    url(r'^w/(?P<year>\d{4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})/(?P<group_id>\d+)/$', views.week, name='week_r'),
 ]
