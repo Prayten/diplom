@@ -1,0 +1,27 @@
+{% extends 'rest_api/base.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Расписания групп студентов</h1>
+                <ul>
+                    {% for g in groups %}
+                        <li><a href="{% url 'group' g.id today.year today.month today.day %}">{{ g }}</a></li>
+                    {% endfor %}
+                </ul>
+                <h1>Расписания аудиторий</h1>
+                <ul>
+                    {% for r in rooms %}
+                        <li><a href="{% url 'room' r.id today.year today.month today.day %}">{{ r }}</a></li>
+                    {% endfor %}
+                </ul>
+                <h1>Расписания преподавателей</h1>
+                <ul>
+                    {% for t in teachers %}
+                        <li><a href="{% url 'teacher' t.id today.year today.month today.day %}">{{ t }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

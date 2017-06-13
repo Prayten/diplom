@@ -1,0 +1,11 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//{% block title %}{{ title }}{% endblock %}//NONSGML v1.0//RU
+{% for e in events %}
+BEGIN:VEVENT
+UID:{{ e.id }}
+DTSTAMP:{{ e.begin|date:"Ymd" }}T{{ e.begin|date:"His" }}Z
+SUMMARY:{{ e.name }}
+END:VEVENT
+{% endfor %}
+END:VCALENDAR

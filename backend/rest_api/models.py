@@ -1,11 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from pygments.lexers import get_all_lexers
-from pygments.styles import get_all_styles
-
-LEXERS = [item for item in get_all_lexers() if item[1]]
-LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
-STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
+from django.contrib.auth.models import User, Group
 
 
 class Room(models.Model):
@@ -47,6 +42,20 @@ class Subject(models.Model):
         return self.name
 
 
+class Teacher(models.Model):
+    class Meta:
+        verbose_name = 'Преподаватель'
+        verbose_name_plural = 'Преподаватели'
+        ordering = ['last_name', 'first_name', 'second_name']
+
+    last_name = models.CharField('Фамилия', max_length=25)
+    first_name = models.CharField('Имя', max_length=25)
+    second_name = models.CharField('Отчество', max_length=25, blank=True)
+
+    def __str__(self):
+        return '%s %s. %s.' % (self.last_name, self.first_name[:1], self.second_name[:1])
+
+
 class Event(models.Model):
     class Meta:
         verbose_name = 'Событие'
@@ -61,7 +70,7 @@ class Event(models.Model):
     period = models.IntegerField('Период повторения', blank=True, default=0)
     count = models.IntegerField('Количество повторений', blank=True, default=0)
     subject = models.ForeignKey('Subject', verbose_name='Дисциплина', null=True, blank=True)
-    leader = models.ForeignKey('auth.User', verbose_name='Ведущий', null=True, blank=True)
+    teacher = models.ForeignKey('Teacher', verbose_name='Преподаватель', null=True, blank=True)
     participants = models.ForeignKey('auth.Group', verbose_name='Участники', null=True, blank=True)
 
     def __str__(self):

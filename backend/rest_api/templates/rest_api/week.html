@@ -1,23 +1,50 @@
-{% extends 'rest_api/menu.html' %}
-{% block content %}
+{% extends 'rest_api/base.html' %}
+{% block body %}
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                <h1>Редактор расписания{% if group %} {{ group }}{% endif %}</h1>
+                <h1>
+                    Расписание
+                    {% if group %} группы {{ group }}{% endif %}
+                    {% if room %} аудитории {{ room }}{% endif %}
+                    {% if teacher %} преподавателя {{ teacher }}{% endif %}
+                </h1>
                 <div id="graph"></div>
-                <a href="{% url 'week' prev_week.year prev_week.month prev_week.day %}" class="btn btn-primary">Предыдущая неделя</a>
-                <a href="{% url 'week' next_week.year next_week.month next_week.day %}" class="btn btn-primary">Следующая неделя</a>
-                <span class="form-inline">
-                    <span class="form-group">
-                        <label for="group">Группа</label>
-                        <select id="group" class="form-control" onchange="changeGroup(event)">
-                            <option value="">------</option>
-                            {% for g in groups %}
-                                <option value="{{ g.id }}"{% if g == group %} selected{% endif %}>{{ g }}</option>
-                            {% endfor %}
-                        </select>
-                    </span>
-                </span>
+                <div class="text-center">
+                    {% if group %}
+                        <a href="{% url 'group' group.id prev.year prev.month prev.day %}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-left"> Назад</span>
+                        </a>
+                    {% endif %}
+                    {% if room %}
+                        <a href="{% url 'room' room.id prev.year prev.month prev.day %}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-left"> Назад</span>
+                        </a>
+                    {% endif %}
+                    {% if teacher %}
+                        <a href="{% url 'teacher' teacher.id prev.year prev.month prev.day %}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-left"> Назад</span>
+                        </a>
+                    {% endif %}
+                    <a href="{% url 'index' %}" class="btn btn-default">
+                        <span class="glyphicon glyphicon-home"> Главная</span>
+                    </a>
+                    {% if group %}
+                        <a href="{% url 'group' group.id next.year next.month next.day %}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-right"> Вперед</span>
+                        </a>
+                    {% endif %}
+                    {% if room %}
+                        <a href="{% url 'room' room.id next.year next.month next.day %}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-right"> Вперед</span>
+                        </a>
+                    {% endif %}
+                    {% if teacher %}
+                        <a href="{% url 'teacher' teacher.id next.year next.month next.day %}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-chevron-right"> Вперед</span>
+                        </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
@@ -32,7 +59,7 @@
                 {
                     id: "{{ event.id }}",
                     name: "{{ event.name }}",
-                    leader: "{{ event.leader }}",
+                    teacher: "{{ event.teacher }}",
                     participants: "{{ event.participants }}",
                     room: "{{ event.room }}",
                     subject: "{{ event.subject }}",
@@ -83,18 +110,9 @@
             svg.appendChild(text);
         }
 
-        function click(event) {
-            window.location.href = {% url 'event:list' %} +event.target.getAttribute('data-id');
-        }
-
-        function changeGroup(event) {
-            var options = event.target.children;
-            for (var i = 0; i < options.length; i++) {
-                if (options[i].selected) {
-                    window.location.href = "{% url 'week' request.resolver_match.kwargs.year request.resolver_match.kwargs.month request.resolver_match.kwargs.day %}" + options[i].value;
-                }
-            }
-        }
+        {#        function click(event) {#}
+        {#            window.location.href = {% url 'event:list' %} +event.target.getAttribute('data-id');#}
+        {#        }#}
 
         // Прямоугольник с событием
         function createEvent(x, y, event) {
@@ -117,7 +135,7 @@
             wrap2.setAttribute('height', '69');
 
             var par = document.createElement('p');
-            par.innerHTML = event.name + ' ' + event.room + ' ' + event.subject + ' ' + event.participants + ' ' + event.leader;
+            par.innerHTML = event.name + ' ' + event.room + ' ' + event.subject + ' ' + event.participants + ' ' + event.teacher;
 
             wrap2.appendChild(par);
             wrap1.appendChild(wrap2);
